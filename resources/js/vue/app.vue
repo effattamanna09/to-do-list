@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import addItemForm from "./addItemForm.vue";
 import listView from "./listView.vue";
 
@@ -28,7 +29,7 @@ export default {
     getList() {
       axios
         .post('api/items')
-        .then((response) => {
+        .then(( response ) => {
           this.items = response.data;
         })
         .catch((error) => {

@@ -10,6 +10,7 @@ v-model="item.completed"/>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     props: ['item'],
     methods: {
