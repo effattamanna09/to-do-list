@@ -1,34 +1,36 @@
 <template>
     <div class="item">
-<input type="checkbox"
-@change="updateCheck()"
-v-model="item.completed"/>
-<span :class="[item.completed ? 'completed' : '', 'itemText']">{{item.name}}</span>
-       <button @click="removeItem()" class="trashcan"></button>
-        <font-awesome-icon icon="trash" />
-        </div>
+        <input type="checkbox"
+        @change="updateCheck()"
+        v-model="item.completed"
+        />
+
+        <span :class="[item.completed ? 'completed' : '', 'itemText']"> {{item.name}} </span>
+        <button @click="removeItem()" class="trashcan">
+            <font-awesome-icon icon="trash"/>
+        </button>
+    </div>
 </template>
 
 <script>
-import axios from 'axios';
 export default {
     props: ['item'],
     methods: {
-        updateCheck() {
-            axios.put('api/item' + this.item.id,{
+        updateCheck(){
+            axios.put('api/item/' + this.item.id, {
                 item: this.item
             })
-            .this(response => {
-                if( response.status == 200){
+            .then(response => {
+                if(response.status == 200){
                     this.$emit('itemchanged');
                 }
             })
-            .catch( error =>{
-                console.log( error );
+            .catch(error => {
+                console.log(error);
             })
         },
-        removeItem() {
-            axios.delete('api/item' + this.item.id)
+        removeItem(){
+            axios.delete('api/item/' + this.item.id)
             .then(response => {
                 if(response.status == 200){
                     this.$emit('itemchanged');
@@ -39,28 +41,27 @@ export default {
             })
         }
     }
-
-}
+};
 </script>
-
 
 <style scoped>
 .completed {
     text-decoration: line-through;
-    color: cornsilk;
+    color: #999999;
 }
-
-.itemText{
+.itemText {
     width: 100%;
     margin-left: 20px;
 }
-
-
-.trashcan{
-    background: darkgray;
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.trashcan {
+    background: #e6e6e6;
     border: none;
-    color: crimson;
+    color: #ff0000;
     outline: none;
 }
-
 </style>

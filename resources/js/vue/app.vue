@@ -1,59 +1,56 @@
 <template>
-
-  <div class="todoListContainer">
-    <div class="heading">
-      <h2 id="title">Todo List</h2>
-      <add-item-form v-on:reloadlist="getList()" />
+    <div class="todoListContainer">
+        <div class="heading">
+            <h2 id="title">Todo List</h2>
+            <add-item-form v-on:reloadlist="getList()" />
+        </div>
+        <list-view :items="items" v-on:reloadlist="getList()"/>
     </div>
-    <list-view :items="items"
-    v-on:reloadlist="getList()" />
-  </div>
 </template>
 
 <script>
-import axios from 'axios';
-import addItemForm from "./addItemForm.vue";
-import listView from "./listView.vue";
+import addItemForm from "./addItemForm";
+import listView from "./listView";
 
 export default {
-  components: {
-    addItemForm,
-    listView,
-  },
-  data: function () {
-    return {
-      items: [],
-    };
-  },
-  methods: {
-    getList() {
-      axios
-        .post('api/items')
-        .then(( response ) => {
-          this.items = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    components: {
+        addItemForm,
+        listView
     },
-  },
-  created() {
-    this.getList();
-  },
+    data: function(){
+        return {
+            items: []
+        }
+    },
+    methods: {
+        getList(){
+            axios.get('api/items')
+            .then(response => {
+                this.items = response.data
+            })
+            .catch (error => {
+                console.log(error);
+            })
+        }
+    },
+    created(){
+        this.getList();
+    }
 };
 </script>
 
 <style scoped>
 .todoListContainer {
-  width: 350px;
-  margin: auto;
+    width: 300px;
+    margin: auto;
 }
 
 .heading {
-  background: wheat;
-  padding: 10px;
+    background: #6e6e6e;
+    padding: 10px;
 }
+
 #title {
-  text-align: center;
+    text-align: center;
 }
 </style>
